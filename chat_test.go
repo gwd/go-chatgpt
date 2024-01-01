@@ -22,14 +22,6 @@ func TestValidate(t *testing.T) {
 			expectedError: nil,
 		},
 		{
-			name: "Invalid model",
-			request: &ChatCompletionRequest{
-				Model:    "invalid-model",
-				Messages: validRequest().Messages,
-			},
-			expectedError: chatgpt_errors.ErrInvalidModel,
-		},
-		{
 			name:          "No messages",
 			request:       &ChatCompletionRequest{},
 			expectedError: chatgpt_errors.ErrNoMessages,
@@ -164,17 +156,6 @@ func TestSend(t *testing.T) {
 		},
 	})
 	assert.NoError(t, err)
-
-	_, err = client.Send(context.Background(), &ChatCompletionRequest{
-		Model: "invalid model",
-		Messages: []ChatMessage{
-			{
-				Role:    ChatGPTModelRoleUser,
-				Content: "Hello",
-			},
-		},
-	})
-	assert.Error(t, err)
 
 	server, client = newTestClientWithInvalidResponse()
 	defer server.Close()

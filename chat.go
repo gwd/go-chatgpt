@@ -12,26 +12,26 @@ import (
 type ChatGPTModel string
 
 const (
-	GPT35Turbo        ChatGPTModel = "gpt-3.5-turbo"
+	GPT35Turbo ChatGPTModel = "gpt-3.5-turbo"
 
 	// Deprecated: Use gpt-3.5-turbo-0613 instead, model will discontinue on 09/13/2023
-	GPT35Turbo0301    ChatGPTModel = "gpt-3.5-turbo-0301"
-	
+	GPT35Turbo0301 ChatGPTModel = "gpt-3.5-turbo-0301"
+
 	GPT35Turbo0613    ChatGPTModel = "gpt-3.5-turbo-0613"
 	GPT35Turbo16k     ChatGPTModel = "gpt-3.5-turbo-16k"
 	GPT35Turbo16k0613 ChatGPTModel = "gpt-3.5-turbo-16k-0613"
 	GPT4              ChatGPTModel = "gpt-4"
-	
+
 	// Deprecated: Use gpt-4-0613 instead, model will discontinue on 09/13/2023
-	GPT4_0314         ChatGPTModel = "gpt-4-0314"
-	
-	GPT4_0613         ChatGPTModel = "gpt-4-0613"
-	GPT4_32k          ChatGPTModel = "gpt-4-32k"
-	
+	GPT4_0314 ChatGPTModel = "gpt-4-0314"
+
+	GPT4_0613 ChatGPTModel = "gpt-4-0613"
+	GPT4_32k  ChatGPTModel = "gpt-4-32k"
+
 	// Deprecated: Use gpt-4-32k-0613 instead, model will discontinue on 09/13/2023
-	GPT4_32k_0314     ChatGPTModel = "gpt-4-32k-0314"
-	
-	GPT4_32k_0613     ChatGPTModel = "gpt-4-32k-0613"
+	GPT4_32k_0314 ChatGPTModel = "gpt-4-32k-0314"
+
+	GPT4_32k_0613 ChatGPTModel = "gpt-4-32k-0613"
 )
 
 type ChatGPTModelRole string
@@ -155,22 +155,6 @@ func (c *Client) Send(ctx context.Context, req *ChatCompletionRequest) (*ChatRes
 func validate(req *ChatCompletionRequest) error {
 	if len(req.Messages) == 0 {
 		return chatgpt_errors.ErrNoMessages
-	}
-
-	isAllowed := false
-
-	allowedModels := []ChatGPTModel{
-		GPT35Turbo, GPT35Turbo0301, GPT35Turbo0613, GPT35Turbo16k, GPT35Turbo16k0613, GPT4, GPT4_0314, GPT4_0613, GPT4_32k, GPT4_32k_0314, GPT4_32k_0613,
-	}
-
-	for _, model := range allowedModels {
-		if req.Model == model {
-			isAllowed = true
-		}
-	}
-
-	if !isAllowed {
-		return chatgpt_errors.ErrInvalidModel
 	}
 
 	for _, message := range req.Messages {
